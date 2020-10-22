@@ -666,7 +666,18 @@ void RenderFrame()
 
 	float separation = pEyeSeparation * pSeparationPercentage / 100;
 	float convergence = pEyeSeparation * pSeparationPercentage / 100 * pConvergence;
+	static NvU8 lastFrameStereorized = false;
+	NvAPI_Stereo_Debug_WasLastDrawStereoized(g_StereoHandle, &lastFrameStereorized);
 
+	static NvU8 isActivated = false;
+	NvAPI_Stereo_IsActivated(g_StereoHandle, &isActivated);
+	if (!isActivated)
+	{
+		NvAPI_Stereo_Activate(g_StereoHandle);
+	}
+
+	static NvU8 isEnabled = false;
+	NvAPI_Stereo_IsEnabled(&isEnabled);
 
 	//
 	// Drawing same object twice, once for each eye.
